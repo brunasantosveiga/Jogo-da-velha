@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(
+        90deg,
+        rgb(65, 185, 131) 0%,
+        rgb(0, 212, 255) 100%
+    );
+}
+.board {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: repeat(3, auto);
+}
+
+/*células*/
+.cell {
+    width: 100px;
+    height: 100px;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    columns: #000;
+}
+.cell.x,
+.cell.circle {
+    cursor: not-allowed;
+}
+/* .cell:nth-child(3) vai selecionar o terceiro elemento com a class cell*/
+.cell:nth-child(3),
+.cell:nth-child(6),
+.cell:nth-child(9) {
+    border-right: none;
+}
+.cell:nth-child(7),
+.cell:nth-child(8),
+.cell:nth-child(9) {
+    border-bottom: none;
+}
+
+/* X */
+
+/*com .cell.x::after e .cel.x::before crio os dois traços antes e depois das divs que tem as classes cell e x.
+Porém, o before e after tem position static, ao colocar position:absolute os traços flutuam em relação a div.*/
+.cell.x::after,
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before {
+    content: "";
+    height: 15px;
+    width: 90px;
+    background-color: #fff;
+    position: absolute; 
+}
+
+/* .board.x .cell:not(.x):not(.circle):hover::after (e ::before) seleciona a div com as classes board e x e 
+cria o x quando passa o mouse nas células que não tem a class x ou circle (ou seja, cria o efeito do x nas 
+células vazias)*/
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+    transform: rotate(45deg);
+}
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+}
+
+
+/* Circulo*/
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+    content: "";
+    height: 90px;
+    width: 90px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+/* Cores do x e do circle quando passa o mouse*/
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/*mensagem de vitória*/
+.winnig-message {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.winnig-message-button {
+    font-size: 2.5rem;
+    background-color: rgb(65, 185, 131);
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    margin-top: 16px;
+    color: #fff;
+}
+.winnig-message-button:hover {
+    color: rgb(65, 185, 131);
+    background-color: #fff;
+}
+.winnig-message-text {
+    color: #fff;
+    font-size: 5rem;
+}
+.show-winning-message {
+    display: flex;
+}
+
